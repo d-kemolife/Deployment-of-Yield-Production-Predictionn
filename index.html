@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="../static/style.css"> -->
+    <title>.::Yield Predictor WebApp</title>
+
+    <link rel="icon" type="image/png" href="../static/images/bg_1.jpg">
+    
+<style>
+   *,
+ ::after,
+ ::before {
+     padding: 0;
+     margin: 0;
+     box-sizing: border-box;
+ }
+
+ html {
+     scroll-behavior: smooth;
+     font-size: 100%;
+ }
+
+ ::-webkit-scrollbar {
+     width: 10px;
+ }
+
+ ::-webkit-scrollbar-track {
+     background: #fdf4f9;
+ }
+
+ ::-webkit-scrollbar-thumb {
+     background: rgb(9, 133, 9);
+     border-radius: 5px;
+ }
+
+ body {
+     background-color: rgba(202, 241, 202, 0.418);
+     font-family: 'Poppins', sans-serif;
+ }
+
+ .container {
+     width: 90%;
+     padding-top: 15px;
+     padding-right: 10px;
+     padding-left: 10px;
+     margin: auto;
+ }
+
+ .text-center {
+     text-align: center !important;
+ }
+
+ .head {
+     background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('../static/images/bg_4.jpg');
+     background-attachment: fixed;
+     background-repeat: no-repeat;
+     background-size: cover;
+     position: relative;
+     height: 100vh;
+     width: 100%;
+     margin-top: 0;
+     /* justify-content: center; */
+     /* box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); */
+ }
+
+ .tag {
+     justify-content: center;
+     font-size: 50px;
+     color: white;
+ }
+
+ #name {
+     font-size: 30px;
+     font-family: 'Courier New', Courier, monospace;
+
+
+ }
+
+ .head .tag {
+     height: 500px;
+     width: 100%;
+ }
+
+ h1 {
+     font-size: 4rem;
+     text-align: center;
+     margin: 3rem 0;
+ }
+
+ .intro{
+    padding: 10px;
+    margin: 2rem 0;
+ }
+
+ .intro p {
+     margin: 0px 0 10px 0px;
+     color: #000;
+     text-align: justify;
+     padding: 20px 10px;
+     font-size: 20px;
+     letter-spacing: 1px;
+     /* box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5); */
+ }
+
+ .grid {
+     display: grid;
+     grid-template-columns: repeat(3, 1fr);
+     width: 100%;
+     grid-gap: 30px;
+     margin-bottom: 20px;
+ }
+
+ .results .grid {
+     grid-template-columns: repeat(2, 1fr);
+     width: 100%;
+     margin: auto;
+     grid-gap: 30px;
+ }
+
+ .bx {
+     border: 2px solid rgb(9, 133, 9);
+     padding: 10px;
+     height: 95%;
+     margin-bottom: 20px;
+     height: max-content;
+ }
+
+ .cell {
+     border: rgba(0, 0, 0, 0.2) 1px solid;
+     margin: .5rem 0;
+     padding: .5rem;
+     height: max-content;
+     text-align: justify;
+     width: 100%;
+ }
+
+ .cell>select,
+ input {
+     width: 100%;
+     margin-top: .7rem;
+     height: 35px;
+     border-radius: 5px;
+     outline: none;
+ }
+
+
+ label {
+     font-size: .9rem;
+     text-align: justify;
+ }
+
+ .score {
+     height: max-content;
+     margin: auto;
+     text-align: center;
+ }
+
+ #score {
+     color: black;
+     font-size: .9rem;
+     width: 50%;
+ }
+
+ #base {
+     width: 100%;
+     justify-content: space-between;
+     display: flex;
+     height: 20px;
+     padding: 5px 30px;
+     margin-bottom: 40px;
+ }
+
+ .btn {
+     padding: 7px 70px;
+     font-size: 1.3rem;
+     border-radius: 5px;
+     border: 0;
+ }
+
+ .submit {
+     color: rgb(9, 133, 9);
+     background-color: #fff;
+ }
+
+ .submit:hover {
+     background-color: #fcd59b;
+ }
+
+ .clear {
+     color: #000;
+     background-color: #fff;
+ }
+
+ .clear:hover {
+     background-color: #e3e3e3;
+ }
+
+ #home {
+     background-color: rgb(9, 133, 9);
+     padding: 10px;
+     display: block;
+     width: 6%;
+     margin: 3rem 0 0 2rem;
+     box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+ }
+
+ #home:hover {
+     background-color: rgb(248, 238, 238);
+     color: rgb(9, 133, 9);
+     font-weight: 600;
+     box-shadow: none;
+ }
+
+ .info {
+     margin: 0rem 0 2rem 40rem;
+     width: 30%;
+     /*border: 1px solid #000;*/
+     text-align: justify;
+     padding: 3rem;
+     box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+ }
+
+ .results {
+     margin: 2rem;
+     text-align: center;
+ }
+
+ #pred {
+     /* background-color: white; */
+     box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+     /* border:rgb(9, 133, 9) 1px solid; */
+     width: 50%;
+     padding: 30px;
+     font-size: 20px;
+ }
+
+ #pred>label {
+     font-size: 1rem;
+ }
+
+ #pred>p {
+     border: #000 1px solid;
+     color: #000;
+     font-size: .9rem;
+     font-weight: 700;
+     padding: 5px 10px;
+ }
+
+ footer {
+     background-image: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('../static/images/bg_3.jpg');
+     background-repeat: no-repeat;
+     background-size: cover;
+     background-position: center;
+     height: 100vh;
+     background-attachment: scroll;
+     color: #fff;
+     position: relative;
+ }
+
+ footer ul {
+     font-size: 16px;
+ }
+
+ footer li {
+     padding: 5px 0px;
+ }
+
+ .footer {
+     padding-top: 4rem;
+     text-align: justify;
+ }
+
+ .footer .grid {
+     margin-bottom: 5rem;
+ }
+
+ .grid .col {
+     border-radius: 10px;
+     padding: 10px 25px;
+ }
+
+ .col:hover {
+     background-color: rgba(0, 0, 0, 0.7);
+ }
+
+ h3 {
+     color: rgb(9, 133, 9);
+ }
+
+ p,
+ a {
+     font-size: 1rem;
+ }
+
+ a {
+     text-decoration: none;
+     color: #fff;
+ }
+
+ a:hover {
+     color: rgb(9, 133, 9);
+     transition: .3s ease-in-out;
+ }
+
+ .col #none {
+     list-style-type: none;
+ }
+
+ .text-center {
+     font-size: .9rem;
+ }
+
+ /* ####### Responsive design for Mini desktop starts here ###### */
+ @media screen and (min-width: 901px) and (max-width: 1024px) {
+     .container {
+         width: 90%;
+     }
+
+     h1 {
+         text-align: left;
+     }
+
+     #home {
+         width: 8%;
+     }
+
+
+     .info {
+         margin: 0rem 0 2rem 28rem;
+         width: 40%;
+         /*border: 1px solid #000;*/
+     }
+
+     .results {
+         margin: 2rem;
+     }
+
+
+     #pred {
+         width: 70%;
+         padding: 30px;
+         font-size: 20px;
+     }
+
+     footer {
+         height: 90vh;
+     }
+
+     .footer {
+         padding-top: 1rem;
+     }
+
+     .footer .grid {
+         margin-bottom: 1rem;
+     }
+
+     .grid .col {
+         padding: 1rem;
+     }
+ }
+
+ /* ####### Responsive design for Tablets starts here ###### */
+ @media screen and (min-width: 600px) and (max-width: 900px) {
+
+     .head {
+         background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('C:\Users\Kemi\Desktop\Yield_Deployment\static\images\bg_2.jpg');
+         background-attachment: fixed;
+         background-repeat: no-repeat;
+         background-size: cover;
+         background-position: center;
+         position: relative;
+         height: 100vh;
+         width: 100%;
+         margin-top: 0;
+         /* justify-content: center; */
+         /* box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5); */
+     }
+
+     h1 {
+         font-size: 3rem;
+         text-align: left;
+     }
+
+     .grid {
+         grid-template-columns: 1fr;
+         grid-gap: 10px;
+     }
+
+     .info {
+         margin: 0rem 0 2rem 18rem;
+         width: 50%;
+         /*border: 1px solid #000;*/
+     }
+
+     .results {
+         margin: 2rem;
+     }
+
+     #home {
+         width: 10%;
+     }
+
+
+     #pred {
+         width: 100%;
+         padding: 30px;
+         font-size: 20px;
+     }
+
+     footer {
+         height: 100vh;
+     }
+
+     .footer {
+         padding-top: 1rem;
+     }
+
+     .footer .grid {
+         margin-bottom: 1rem;
+     }
+
+     .grid .col {
+         padding: 1rem;
+     }
+
+ }
+
+
+ /* ####### Responsive design for mobile devices starts here ###### */
+
+ @media screen and (min-width: 300px) and (max-width: 599px) {
+
+     .container {
+         width: 90%;
+     }
+
+     .head {
+         background-position: center;
+     }
+
+     .tag {
+         margin-top: 8rem;
+     }
+
+     #name {
+         font-size: 1.4rem;
+     }
+
+     h1 {
+         font-size: 1.7rem;
+         text-align: left;
+     }
+
+     .intro {
+         line-height: 1.5;
+     }
+
+     .grid {
+         grid-template-columns: 1fr;
+         grid-gap: 7px;
+     }
+
+     .info {
+         margin: 0rem 0 2rem 1rem;
+         width: 90%;
+         padding: 18px;
+         font-size: 80%;
+         /*border: 1px solid #000;*/
+     }
+
+     .results {
+         margin: 2rem;
+     }
+
+     .results .grid {
+         grid-template-columns: 1fr;
+     }
+
+     #home {
+         width: 20%;
+     }
+
+
+
+     #base {
+         padding: 5px 10px;
+     }
+
+     .btn {
+         padding: 7px 30px;
+     }
+
+
+
+     #pred {
+         width: 100%;
+     }
+
+     footer {
+         height: 100vh;
+     }
+
+     ul li {
+         font-size: .8rem;
+     }
+
+     .footer {
+         padding-top: .5rem;
+         font-size: 70%;
+     }
+
+     .footer .grid {
+         margin-bottom: 0;
+         grid-gap: 0px;
+     }
+
+     .grid .col {
+         padding: .5rem 1rem;
+     }
+
+
+     p,
+     a {
+         font-size: .8rem;
+     }
+ }
+</style>
+</head>
+
+<body>
+    <section class="head">
+       <div class="container">
+        <div class="tag">
+            <h1>Yield Production Prediction</h1>
+          <br><h3>By Dauda Olorunkemi Isiaka<br></h3>
+           <!-- <p id="name">By Dauda Olorunkemi Isiaka<br></p> -->
+        </div>
+       </div>
+    </section>
+    <hr>
+    <section class="body">
+        <!-- <div class="container"> -->
+            <div class="intro">
+                <p>
+                    This is a framework for Prediction of Yield Production from 7 seven features. This tool is meant to be usable for the Crop Yield production predicted by the Farm Center of the Federal University Lokoja, Nigeria.
+                </p>
+            
+            </div>
+        </div>
+        <!-- <div class="dim"></div> -->
+        <div class="container">
+            <form action="{{url_for('predict')}}" method="post">
+                    <div class="grid">
+                        <div class="bx">
+                            <p class="cell">
+                                    <label 
+                                        for="Crop">Select
+                                        Your
+                                        Crop:</label> <br>
+                                <select name="Crop" required='required'>
+                                    <option value="">Select</option>
+                                    <option value="0">Arecanut</option>
+                                    <option value="1">Arhar/Tur</option>
+                                    <option value="2">Castor seed</option>
+                                    <option value="3">Coconut </option>
+                                    <option value="4">Cotton(lint)</option>
+                                    <option value="5">Dry chillies</option>
+                                    <option value="6">Gram</option>
+                                    <option value="7">Jute</option>
+                                    <option value="8">Linseed</option>
+                                    <option value="9">Maize</option>
+                                    <option value="10">Mesta</option>
+                                    <option value="11">Niger seed</option>
+                                    <option value="12">Onion</option>
+                                    <option value="13">Other  Rabi pulses</option>
+                                    <option value="14">Potato</option>
+                                    <option value="15">Rapeseed &Mustard</option>
+                                    <option value="16">Rice</option>
+                                    <option value="17">Sesamum</option>
+                                    <option value="18">Small millets</option>
+                                    <option value="19">Sugarcane</option>
+                                    <option value="20">Sweet potato</option>
+                                    <option value="21">Tapioca</option>
+                                    <option value="22">Tobacco</option>
+                                    <option value="23">Turmeric</option>
+                                    <option value="24">Wheat</option>
+                                    <option value="25">Bajra</option>
+                                    <option value="26">Black pepper</option>
+                                    <option value="27">Cardamom</option>
+                                    <option value="28">Coriander</option>
+                                    <option value="29">Garlic</option>
+                                    <option value="30">Ginger</option>
+                                    <option value="31">Groundnut</option>
+                                    <option value="32">Horse-gram</option>
+                                    <option value="33">Jowar</option>
+                                    <option value="34">Ragi</option>
+                                    <option value="35">Cashewnut</option>
+                                    <option value="36">Banana</option>
+                                    <option value="37">Soyabean</option>
+                                    <option value="38">Barley</option>
+                                    <option value="39">Khesari</option>
+                                    <option value="40">Masoor</option>
+                                    <option value="41">Moong(Green Gram)</option>
+                                    <option value="42">Other Kharif pulses</option>
+                                    <option value="43">Safflower</option>
+                                    <option value="44">Sannhamp</option>
+                                    <option value="45">Sunflower</option>
+                                    <option value="46">Urad</option>
+                                    <option value="47">Peas & beans (Pulses)</option>
+                                    <option value="48">other oilseeds</option>
+                                    <option value="49">Other Cereals</option>
+                                    <option value="50">Cowpea(Lobia)</option>
+                                    <option value="51">Oilseeds total</option>
+                                    <option value="52">Guar seed</option>
+                                    <option value="53">Other Summer Pulses</option>
+                                    <option value="54">Moth</option>
+                                </select>
+                            </p>
+                            <p class="cell">
+                                <label for="Season">What Season</label> <br>
+                            
+                                <select name="Season" required='required'>
+                                    <option value="">Select</option>
+                                    <option value="0">Whole Year </option>
+                                    <option value="1">Kharif     </option>
+                                    <option value="2">Rabi       </option>
+                                    <option value="3">Autumn     </option>
+                                    <option value="4">Summer     </option>
+                                    <option value="5">Winter     </option>
+                                </select>
+                            </p>
+                            <p class="cell">
+                                <label 
+                                        for="State">Select
+                                        Your
+                                        State:
+                                </label> <br>
+
+                                <select name="State" required='required'>
+                                    <option value="">Select</option>
+                                    <option value="0">Assam</option>
+                                    <option value="1">Karnataka</option>
+                                    <option value="2">Kerala</option>
+                                    <option value="3">Meghalaya</option>
+                                    <option value="4">West Bengal</option>
+                                    <option value="5">Puducherry</option>
+                                    <option value="6">Goa</option>
+                                    <option value="7">Andhra Pradesh</option>
+                                    <option value="8">Tamil Nadu</option>
+                                    <option value="9">Odisha</option>
+                                    <option value="10">Bihar</option>
+                                    <option value="11">Gujarat</option>
+                                    <option value="12">Madhya Pradesh</option>
+                                    <option value="13">Maharashtra</option>
+                                    <option value="14">Mizoram</option>
+                                    <option value="15">Punjab</option>
+                                    <option value="16">Uttar Pradesh</option>
+                                    <option value="17">Haryana</option>
+                                    <option value="18">Himachal Pradesh</option>
+                                    <option value="19">Tripura</option>
+                                    <option value="20">Nagaland</option>
+                                    <option value="21">Chhattisgarh</option>
+                                    <option value="22">Uttarakhand</option>
+                                    <option value="23">Jharkhand</option>
+                                    <option value="24">Delhi</option>
+                                    <option value="25">Manipur</option>
+                                    <option value="26">Jammu and Kashmir</option>
+                                    <option value="27">Telangana</option>
+                                    <option value="28">Arunachal Pradesh</option>
+                                    <option value="29">Sikkim</option>
+                                </select>
+
+                            </p>
+                            
+                        </div>
+                        
+                        
+                        <div class="bx">
+                            <p class="cell">
+                                <label for="Area">Enter your Land Area</label> <br>
+                                <input type="number" required name="Area">
+                            </p>
+
+                            <p class="cell">
+                                <label for="Annual_Rainfall">Enter Estimated Annual Rainfall</label> <br>
+                                <input type="number" required name="Annual_Rainfall">
+                            </p>
+
+                        </div>
+                        
+                        <div class="bx">
+                            <p class="cell">
+                                <label for="Fertilizer">Enter your quantity of Fertilizer</label> <br>
+                                <input type="number" required name="Fertilizer">
+                            </p>
+                            
+                            <p class="cell">
+                                <label for="Pesticide">Enter your quantity of Pesticide</label> <br>
+                                <input type="number" required name="Pesticide">
+                            </p>
+                            
+                        </div>
+                    </div>
+
+                <!-- <div class="container"> -->
+                    <div id="base">
+                       <div>
+                        <button type="submit" id="btn" class="btn submit">Submit</button>
+                       </div>
+
+                        <div>
+                            <button type="reset" class="btn clear">Clear</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <!-- <div class="container">
+                <div id="pred">
+                    <label>Your expected production is:</label> <br>
+                        <p id="text">
+                           
+                            {{ prediction_text }}
+                    
+                        </p>
+                </div>
+            </div> -->
+
+            <br>
+            <br>
+        </div>
+
+        <hr>
+    </section>
+
+    <footer>
+        <div class="footer">
+            <div class="container">
+                <div class="grid">
+                    <div class="col">
+                        <h3>Our Vision</h3>
+                        <p>
+                    This is a framework for Prediction of Yield Production from 7 seven features. This tool is meant to be usable for the Crop Yield production predicted by the Farm Center of the Federal University Lokoja, Nigeria.
+                        </p>
+                    </div>
+                    <div class="col">
+                        <h3>Our Mission</h3>
+                        <p>
+                    This is a framework for Prediction of Yield Production from 7 seven features. This tool is meant to be usable for the Crop Yield production predicted by the Farm Center of the Federal University Lokoja, Nigeria.
+                        </p>
+                    </div>
+                    <div class="col">
+                        <h3>Our Philosophy</h3>
+                        <p>
+                    This is a framework for Prediction of Yield Production from 7 seven features. This tool is meant to be usable for the Crop Yield production predicted by the Farm Center of the Federal University Lokoja, Nigeria.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center">
+                Copyright &copy;
+                <script>document.write(new Date().getFullYear());</script> All rights reserved
+            </p>
+        </footer>
+<!-- <script>
+    let btn = document.getElementById('btn');
+        let textToShow = document.getElementById('text');
+
+        btn.addEventListener('click', () => {
+            if (textToShow.style.display === 'none') {
+                textToShow.style.display = 'block';
+                textToShow.style.transition= '.5s ease';
+            }
+            else {
+                textToShow.style.display = 'none';
+            }
+        })
+
+</script> -->
+
+</body>
+
+</html>
